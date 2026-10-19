@@ -1,0 +1,1783 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>貓咪好生活｜給家裡寶貝最安心的選擇</title>
+
+    <style>
+
+        /* =========================
+           基本設定
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family:
+                "Noto Sans TC",
+                "Microsoft JhengHei",
+                Arial,
+                sans-serif;
+
+            color: #263b37;
+            background: #faf9f5;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            width: 100%;
+            display: block;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+
+        /* =========================
+           Header
+        ========================= */
+
+        header {
+            background: #ffffff;
+            height: 76px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #eeeeea;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-inner {
+            width: 92%;
+            max-width: 1400px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 180px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+
+            background: #dfeee8;
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 25px;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .logo-sub {
+            font-size: 10px;
+            color: #78908a;
+        }
+
+
+        /* =========================
+           Navigation
+        ========================= */
+
+        nav {
+            display: flex;
+            gap: 34px;
+        }
+
+        nav a {
+            font-size: 15px;
+            font-weight: 500;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #36796e;
+        }
+
+        nav a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+
+            width: 0;
+            height: 2px;
+
+            background: #36796e;
+            transition: 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+
+        /* =========================
+           Header icons
+        ========================= */
+
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .search {
+            border-bottom: 1px solid #bbb;
+            padding: 6px 5px;
+            color: #888;
+        }
+
+        .icon {
+            font-size: 22px;
+        }
+
+        .cart {
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+
+            top: -8px;
+            right: -10px;
+
+            width: 18px;
+            height: 18px;
+
+            background: #d88a51;
+            color: white;
+
+            border-radius: 50%;
+
+            font-size: 11px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        /* =========================
+           Hero
+        ========================= */
+
+        .hero {
+            min-height: 540px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(248,245,235,0.96) 0%,
+                    rgba(248,245,235,0.85) 38%,
+                    rgba(248,245,235,0.15) 75%
+                ),
+
+                url("images/hero-cat.jpg");
+
+            background-size: cover;
+            background-position: center;
+
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content {
+            max-width: 550px;
+            padding: 70px 0;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(40px, 5vw, 64px);
+            line-height: 1.25;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+
+        .hero-content h1 span {
+            color: #36796e;
+        }
+
+        .hero-content p {
+            font-size: 19px;
+            color: #536762;
+            margin-bottom: 35px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 30px;
+            border: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background: #36796e;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #285d54;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: white;
+            color: #36796e;
+            border: 1px solid #36796e;
+        }
+
+        .btn-outline:hover {
+            background: #36796e;
+            color: white;
+        }
+
+
+        /* =========================
+           Trust bar
+        ========================= */
+
+        .trust-bar {
+            background: white;
+            padding: 28px 0;
+
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .trust-item {
+            text-align: center;
+            border-right: 1px solid #ddd;
+        }
+
+        .trust-item:last-child {
+            border: none;
+        }
+
+        .trust-icon {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .trust-item h3 {
+            font-size: 16px;
+        }
+
+        .trust-item p {
+            font-size: 12px;
+            color: #888;
+        }
+
+
+        /* =========================
+           Section
+        ========================= */
+
+        section {
+            padding: 75px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-title small {
+            color: #d18b56;
+            font-weight: bold;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+            margin: 7px 0;
+        }
+
+        .section-title p {
+            color: #777;
+        }
+
+
+        /* =========================
+           Main categories
+        ========================= */
+
+        .main-products {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .main-card {
+            min-height: 310px;
+
+            border-radius: 20px;
+
+            padding: 40px;
+
+            display: flex;
+            align-items: center;
+
+            overflow: hidden;
+
+            position: relative;
+        }
+
+        .food-card {
+            background: #dfeee7;
+        }
+
+        .litter-card {
+            background: #f4e8d8;
+        }
+
+        .main-card-content {
+            position: relative;
+            z-index: 2;
+            width: 55%;
+        }
+
+        .main-card h3 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .main-card p {
+            color: #66756f;
+            margin-bottom: 20px;
+        }
+
+        .main-card-image {
+            position: absolute;
+
+            width: 48%;
+            right: -20px;
+            bottom: -20px;
+
+            border-radius: 20px;
+        }
+
+        .main-card .btn {
+            padding: 10px 22px;
+        }
+
+
+        /* =========================
+           Category cards
+        ========================= */
+
+        .category-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(6, 1fr);
+
+            gap: 15px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 15px;
+
+            overflow: hidden;
+
+            border: 1px solid #eee;
+
+            transition: 0.3s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .category-card img {
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .category-info {
+            padding: 15px;
+        }
+
+        .category-info h3 {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .category-info p {
+            color: #999;
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           Bundle
+        ========================= */
+
+        .bundle {
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(249,235,216,0.96),
+                    rgba(249,235,216,0.75)
+                ),
+
+                url("images/happy-cat.jpg");
+
+            background-size: cover;
+            background-position: center;
+
+            border-radius: 25px;
+
+            min-height: 300px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 50px;
+        }
+
+        .bundle-content {
+            max-width: 500px;
+        }
+
+        .bundle h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .bundle p {
+            color: #756c63;
+            margin-bottom: 25px;
+        }
+
+        .price {
+            font-size: 30px;
+            color: #d25c39;
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           Products
+        ========================= */
+
+        .products-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 18px;
+        }
+
+        .product-card {
+            background: white;
+
+            border-radius: 15px;
+
+            overflow: hidden;
+
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+
+            transition: 0.3s;
+
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            position: relative;
+        }
+
+        .product-image img {
+            height: 190px;
+            object-fit: cover;
+        }
+
+        .badge {
+            position: absolute;
+
+            top: 10px;
+            left: 10px;
+
+            background: #e99454;
+            color: white;
+
+            padding: 4px 9px;
+
+            border-radius: 15px;
+
+            font-size: 11px;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-info h3 {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .product-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            color: #d65c3e;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .add-cart {
+            width: 34px;
+            height: 34px;
+
+            border-radius: 50%;
+
+            border: none;
+
+            background: #36796e;
+            color: white;
+        }
+
+
+        /* =========================
+           Brand Story
+        ========================= */
+
+        .brand-story {
+            background: #e4eee9;
+        }
+
+        .brand-story-content {
+            max-width: 850px;
+            margin: auto;
+
+            text-align: center;
+        }
+
+        .brand-story h2 {
+            font-size: 38px;
+            margin-bottom: 25px;
+        }
+
+        .brand-story p {
+            color: #566761;
+            font-size: 17px;
+            margin-bottom: 18px;
+        }
+
+        .brand-quote {
+            font-size: 25px !important;
+            font-weight: bold;
+            color: #36796e !important;
+
+            margin-top: 30px;
+        }
+
+
+        /* =========================
+           Member CTA
+        ========================= */
+
+        .member {
+            padding: 65px 20px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #f3dfca,
+                    #f6e8d8
+                );
+
+            text-align: center;
+        }
+
+        .member h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .member p {
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+
+        /* =========================
+           Footer
+        ========================= */
+
+        footer {
+            background: #263b37;
+            color: white;
+
+            padding: 60px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+
+            grid-template-columns:
+                2fr 1fr 1fr 1fr;
+
+            gap: 50px;
+
+            margin-bottom: 50px;
+        }
+
+        footer h3 {
+            margin-bottom: 15px;
+        }
+
+        footer p {
+            color: #c2cfcb;
+            font-size: 14px;
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        footer li {
+            margin-bottom: 9px;
+            color: #c2cfcb;
+            font-size: 14px;
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.15);
+
+            padding-top: 20px;
+
+            text-align: center;
+
+            color: #9eaaa7;
+
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           RWD
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            nav {
+                display: none;
+            }
+
+            .trust-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            header {
+                height: 65px;
+            }
+
+            .logo-text {
+                font-size: 16px;
+            }
+
+            .search {
+                display: none;
+            }
+
+            .hero {
+                min-height: 600px;
+                background-position: 65% center;
+            }
+
+            .hero-content {
+                padding-top: 230px;
+            }
+
+            .hero-content h1 {
+                font-size: 36px;
+            }
+
+            .hero-content p {
+                font-size: 16px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .trust-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .main-products {
+                grid-template-columns: 1fr;
+            }
+
+            .main-card {
+                min-height: 280px;
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .product-image img {
+                height: 150px;
+            }
+
+            .bundle {
+                padding: 30px;
+            }
+
+            .bundle h2 {
+                font-size: 27px;
+            }
+
+            .brand-story h2 {
+                font-size: 28px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     Header
+========================= -->
+
+<header>
+
+    <div class="header-inner">
+
+        <a href="#" class="logo">
+
+            <div class="logo-icon">
+                🐱
+            </div>
+
+            <div>
+                <div class="logo-text">
+                    貓咪好生活
+                </div>
+
+                <div class="logo-sub">
+                    Good Cat, Better Life
+                </div>
+            </div>
+
+        </a>
+
+
+        <nav>
+
+            <a href="#home">首頁</a>
+
+            <a href="#food">貓咪飼料</a>
+
+            <a href="#litter">貓砂</a>
+
+            <a href="#products">零食・用品</a>
+
+            <a href="#recommend">貓奴選物</a>
+
+        </nav>
+
+
+        <div class="header-icons">
+
+            <div class="search">
+                🔍 搜尋商品
+            </div>
+
+            <div class="icon">
+                ♡
+            </div>
+
+            <div class="icon cart">
+                🛒
+
+                <span class="cart-count" id="cartCount">
+                    0
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     Hero
+========================= -->
+
+<section class="hero" id="home">
+
+    <div class="container">
+
+        <div class="hero-content">
+
+            <h1>
+                把最好的日常<br>
+                <span>留給每一隻貓</span>
+            </h1>
+
+            <p>
+                因為牠不是寵物，而是陪伴我們生活的家人。
+                從每天吃進嘴裡的食物，到每天使用的用品，
+                我們替你多想一步。
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="#food" class="btn btn-primary">
+                    立即選購飼料 →
+                </a>
+
+                <a href="#litter" class="btn btn-outline">
+                    挑選貓砂 →
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     Trust
+========================= -->
+
+<div class="trust-bar">
+
+    <div class="container">
+
+        <div class="trust-grid">
+
+            <div class="trust-item">
+
+                <div class="trust-icon">
+                    🚚
+                </div>
+
+                <h3>
+                    快速出貨
+                </h3>
+
+                <p>
+                    宅配／超商取貨
+                </p>
+
+            </div>
+
+
+            <div class="trust-item">
+
+                <div class="trust-icon">
+                    🛡️
+                </div>
+
+                <h3>
+                    品質把關
+                </h3>
+
+                <p>
+                    嚴選優質商品
+                </p>
+
+            </div>
+
+
+            <div class="trust-item">
+
+                <div class="trust-icon">
+                    🐾
+                </div>
+
+                <h3>
+                    新手友善
+                </h3>
+
+                <p>
+                    專業選購建議
+                </p>
+
+            </div>
+
+
+            <div class="trust-item">
+
+                <div class="trust-icon">
+                    ❤️
+                </div>
+
+                <h3>
+                    會員專屬
+                </h3>
+
+                <p>
+                    累積點數・回購優惠
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     Main Products
+========================= -->
+
+<section id="food">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <small>OUR CORE PRODUCTS</small>
+
+            <h2>
+                貓咪每天都需要的安心選擇
+            </h2>
+
+            <p>
+                嚴選食品與日常用品，讓每一天都過得更安心。
+            </p>
+
+        </div>
+
+
+        <div class="main-products">
+
+
+            <!-- Food -->
+
+            <div class="main-card food-card">
+
+                <div class="main-card-content">
+
+                    <h3>
+                        貓咪飼料
+                    </h3>
+
+                    <p>
+                        優質蛋白質・營養均衡・陪伴健康每一天
+                    </p>
+
+                    <a href="#" class="btn btn-primary">
+                        選購飼料 →
+                    </a>
+
+                </div>
+
+                <img
+                    class="main-card-image"
+                    src="images/cat-food.jpg"
+                    alt="貓咪飼料"
+                >
+
+            </div>
+
+
+            <!-- Litter -->
+
+            <div class="main-card litter-card" id="litter">
+
+                <div class="main-card-content">
+
+                    <h3>
+                        貓砂
+                    </h3>
+
+                    <p>
+                        強效除臭・凝結力佳・打造舒適居家環境
+                    </p>
+
+                    <a href="#" class="btn btn-primary">
+                        選購貓砂 →
+                    </a>
+
+                </div>
+
+                <img
+                    class="main-card-image"
+                    src="images/cat-litter.jpg"
+                    alt="貓砂"
+                >
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     Categories
+========================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <small>CAT LIFE</small>
+
+            <h2>
+                貓咪生活，一站買齊
+            </h2>
+
+        </div>
+
+
+        <div class="category-grid">
+
+
+            <div class="category-card">
+
+                <img
+                    src="images/snack.jpg"
+                    alt="貓咪零食"
+                >
+
+                <div class="category-info">
+
+                    <h3>
+                        零食・罐頭
+                    </h3>
+
+                    <p>
+                        滿足主子的幸福時光 →
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="category-card">
+
+                <img
+                    src="images/toy.jpg"
+                    alt="貓咪玩具"
+                >
+
+                <div class="category-info">
+
+                    <h3>
+                        玩具
+                    </h3>
+
+                    <p>
+                        陪伴貓咪開心玩耍 →
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="category-card">
+
+                <img
+                    src="images/feeding.jpg"
+                    alt="餵食用品"
+                >
+
+                <div class="category-info">
+
+                    <h3>
+                        飲水・餵食用品
+                    </h3>
+
+                    <p>
+                        健康從每天開始 →
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="category-card">
+
+                <img
+                    src="images/scratcher.jpg"
+                    alt="貓抓用品"
+                >
+
+                <div class="category-info">
+
+                    <h3>
+                        貓抓用品
+                    </h3>
+
+                    <p>
+                        滿足天性・保護家具 →
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="category-card">
+
+                <img
+                    src="images/carrier.jpg"
+                    alt="外出用品"
+                >
+
+                <div class="category-info">
+
+                    <h3>
+                        外出用品
+                    </h3>
+
+                    <p>
+                        帶著牠一起去旅行 →
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="category-card">
+
+                <img
+                    src="images/bed.jpg"
+                    alt="居家用品"
+                >
+
+                <div class="category-info">
+
+                    <h3>
+                        居家用品
+                    </h3>
+
+                    <p>
+                        打造舒服的貓咪家 →
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     Bundle
+========================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="bundle">
+
+            <div class="bundle-content">
+
+                <h2>
+                    貓奴必買組合包
+                </h2>
+
+                <p>
+                    精選貓咪日常必需品，一次買齊，
+                    給剛開始養貓的你一個簡單安心的選擇。
+                </p>
+
+                <div class="price">
+                    新手養貓入門組
+                </div>
+
+                <br>
+
+                <a href="#" class="btn btn-primary">
+                    查看全部組合 →
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     Popular Products
+========================= -->
+
+<section id="products">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <small>BEST SELLER</small>
+
+            <h2>
+                熱門推薦
+            </h2>
+
+            <p>
+                貓咪家長們正在回購的商品
+            </p>
+
+        </div>
+
+
+        <div class="products-grid">
+
+
+            <!-- Product 1 -->
+
+            <div class="product-card">
+
+                <div class="product-image">
+
+                    <span class="badge">
+                        熱銷
+                    </span>
+
+                    <img
+                        src="images/product-food.jpg"
+                        alt="天然無穀成貓飼料"
+                    >
+
+                </div>
+
+                <div class="product-info">
+
+                    <h3>
+                        天然無穀成貓飼料 1.5kg
+                    </h3>
+
+                    <div class="product-bottom">
+
+                        <div class="product-price">
+                            $1,280
+                        </div>
+
+                        <button
+                            class="add-cart"
+                            onclick="addCart()"
+                        >
+                            🛒
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product 2 -->
+
+            <div class="product-card">
+
+                <div class="product-image">
+
+                    <span class="badge">
+                        熱銷
+                    </span>
+
+                    <img
+                        src="images/product-litter.jpg"
+                        alt="豆腐貓砂"
+                    >
+
+                </div>
+
+                <div class="product-info">
+
+                    <h3>
+                        豆腐貓砂 6L
+                    </h3>
+
+                    <div class="product-bottom">
+
+                        <div class="product-price">
+                            $399
+                        </div>
+
+                        <button
+                            class="add-cart"
+                            onclick="addCart()"
+                        >
+                            🛒
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product 3 -->
+
+            <div class="product-card">
+
+                <div class="product-image">
+
+                    <span class="badge">
+                        新品
+                    </span>
+
+                    <img
+                        src="images/product-wetfood.jpg"
+                        alt="貓咪罐頭"
+                    >
+
+                </div>
+
+                <div class="product-info">
+
+                    <h3>
+                        貓咪主食罐 80g × 24罐
+                    </h3>
+
+                    <div class="product-bottom">
+
+                        <div class="product-price">
+                            $1,080
+                        </div>
+
+                        <button
+                            class="add-cart"
+                            onclick="addCart()"
+                        >
+                            🛒
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product 4 -->
+
+            <div class="product-card">
+
+                <div class="product-image">
+
+                    <span class="badge">
+                        優惠
+                    </span>
+
+                    <img
+                        src="images/product-toy.jpg"
+                        alt="羽毛逗貓棒"
+                    >
+
+                </div>
+
+                <div class="product-info">
+
+                    <h3>
+                        羽毛逗貓棒
+                    </h3>
+
+                    <div class="product-bottom">
+
+                        <div class="product-price">
+                            $199
+                        </div>
+
+                        <button
+                            class="add-cart"
+                            onclick="addCart()"
+                        >
+                            🛒
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product 5 -->
+
+            <div class="product-card">
+
+                <div class="product-image">
+
+                    <span class="badge">
+                        熱銷
+                    </span>
+
+                    <img
+                        src="images/product-bed.jpg"
+                        alt="半封閉貓窩"
+                    >
+
+                </div>
+
+                <div class="product-info">
+
+                    <h3>
+                        半封閉貓窩
+                    </h3>
+
+                    <div class="product-bottom">
+
+                        <div class="product-price">
+                            $1,280
+                        </div>
+
+                        <button
+                            class="add-cart"
+                            onclick="addCart()"
+                        >
+                            🛒
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     Brand Story
+========================= -->
+
+<section class="brand-story">
+
+    <div class="container">
+
+        <div class="brand-story-content">
+
+            <h2>
+                因為牠是家人，
+                <br>
+                所以我們更在意。
+            </h2>
+
+            <p>
+                牠每天吃進嘴裡的每一口，
+                都值得我們認真挑選。
+            </p>
+
+            <p>
+                我們重視食品成分與品質，
+                嚴選優質蛋白質來源，
+                並提供無穀配方選擇。
+            </p>
+
+            <p>
+                從飼料、零食到貓砂與日常用品，
+                每一樣商品都希望經過仔細的品質把關，
+                讓你少一點擔心，多一點放心。
+            </p>
+
+            <p class="brand-quote">
+                「你願意交給牠的，
+                我們也應該用同樣的標準來挑選。」
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     Member
+========================= -->
+
+<section class="member">
+
+    <div class="container">
+
+        <h2>
+            加入會員，和我們一起照顧家裡的寶貝
+        </h2>
+
+        <p>
+            新會員優惠、會員點數、回購提醒，
+            讓每一次補貨都更加方便。
+        </p>
+
+        <a href="#" class="btn btn-primary">
+            立即註冊 →
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     Footer
+========================= -->
+
+<footer>
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+
+            <div>
+
+                <h3>
+                    🐱 貓咪好生活
+                </h3>
+
+                <p>
+                    把最好的日常，
+                    留給每一隻貓。
+                </p>
+
+                <br>
+
+                <p>
+                    嚴選食品與用品，
+                    讓每個貓咪家庭都能安心生活。
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <h3>
+                    商品
+                </h3>
+
+                <ul>
+
+                    <li>貓咪飼料</li>
+                    <li>貓砂</li>
+                    <li>零食・罐頭</li>
+                    <li>玩具</li>
+                    <li>生活用品</li>
+
+                </ul>
+
+            </div>
+
+
+            <div>
+
+                <h3>
+                    購物資訊
+                </h3>
+
+                <ul>
+
+                    <li>配送方式</li>
+                    <li>付款方式</li>
+                    <li>退換貨政策</li>
+                    <li>常見問題</li>
+
+                </ul>
+
+            </div>
+
+
+            <div>
+
+                <h3>
+                    聯絡我們
+                </h3>
+
+                <ul>
+
+                    <li>客服中心</li>
+                    <li>LINE 官方帳號</li>
+                    <li>Instagram</li>
+                    <li>Facebook</li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+
+        <div class="copyright">
+
+            © 2026 貓咪好生活 Good Cat, Better Life.
+            All Rights Reserved.
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =========================
+     JavaScript
+========================= -->
+
+<script>
+
+    let cartCount = 0;
+
+    function addCart() {
+
+        cartCount++;
+
+        document.getElementById("cartCount").textContent = cartCount;
+
+        alert("商品已加入購物車 🐱");
+
+    }
+
+
+    // 平滑捲動
+
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+
+        link.addEventListener("click", function(e) {
+
+            const target = document.querySelector(
+                this.getAttribute("href")
+            );
+
+            if (target) {
+
+                e.preventDefault();
+
+                target.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }
+
+        });
+
+    });
+
+</script>
+
+
+</body>
+</html>
