@@ -1,0 +1,823 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>喵日子 Nya Days｜貓咪生活選物</title>
+  <style>
+    :root {
+      --green: #526b50;
+      --light: #f4f6ef;
+      --text: #30392e;
+      --border: #e4e8df;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #fff;
+      color: var(--text);
+      font-family: Arial, "Noto Sans TC", sans-serif;
+    }
+    header {
+      background: var(--light);
+      padding: 18px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    h1 { font-size: 25px; color: var(--green); margin: 0; }
+    nav { display: flex; gap: 8px; flex-wrap: wrap; }
+    button, .button {
+      border: 0;
+      background: var(--green);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button.secondary { background: #e9eee5; color: var(--text); }
+    button.danger { background: #a64d45; }
+    button:disabled { opacity: .5; cursor: not-allowed; }
+    main { max-width: 1100px; margin: auto; padding: 25px 18px; }
+    .hero {
+      padding: 35px 25px;
+      border-radius: 15px;
+      background: var(--light);
+      margin-bottom: 25px;
+    }
+    .hero h2 { font-size: 28px; margin: 0 0 12px; }
+    .muted { color: #747d70; font-size: 14px; }
+    .toolbar {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      margin: 18px 0;
+    }
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 11px;
+      font: inherit;
+      background: white;
+    }
+    .toolbar input { flex: 1; min-width: 180px; }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+    .card, .panel {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      min-width: 0;
+    }
+    .product-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      background: var(--light);
+    }
+    .price { color: var(--green); font-size: 20px; font-weight: bold; }
+    .card h3 { margin-bottom: 8px; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .section { margin-top: 32px; }
+    .section h2 { font-size: 22px; }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    label { display: block; font-size: 14px; margin-bottom: 5px; }
+    .field { margin-bottom: 12px; }
+    .hidden { display: none !important; }
+    .cart-row {
+      display: flex; justify-content: space-between;
+      align-items: center; gap: 12px;
+      border-bottom: 1px solid var(--border); padding: 14px 0;
+    }
+    .notice {
+      padding: 12px; background: var(--light);
+      border-radius: 8px; margin: 15px 0;
+    }
+    #message { white-space: pre-wrap; margin: 12px 0; }
+    footer { padding: 25px; text-align: center; background: var(--light); margin-top: 40px; }
+    @media (max-width: 520px) {
+      header { align-items: flex-start; flex-direction: column; }
+      nav button { padding: 9px; }
+      .cart-row { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>喵日子 Nya Days</h1>
+    <div class="muted">給貓咪最安心的選擇</div>
+  </div>
+  <nav>
+    <button onclick="go('shop')">商品</button>
+    <button onclick="go('cart')">購物車 <span id="cartCount">0</span></button>
+    <button onclick="go('account')">會員中心</button>
+    <button id="adminNav" class="hidden" onclick="go('admin')">商品管理</button>
+    <button id="authButton" onclick="go('account')">登入／註冊</button>
+    <button id="logoutButton" class="hidden secondary" onclick="logout()">登出</button>
+  </nav>
+</header>
+
+<main>
+  <div id="message" role="status"></div>
+
+  <section class="hero">
+    <h2>讓每一天，都成為貓咪的幸福日常。</h2>
+    <p>精選貓咪食品、貓砂與生活用品，陪伴每個毛孩家庭。</p>
+    <button onclick="go('shop')">開始選購</button>
+  </section>
+
+  <section id="shop" class="section">
+    <h2>所有商品</h2>
+    <div class="toolbar">
+      <input id="search" placeholder="搜尋商品名稱或描述…" oninput="renderProducts()">
+      <select id="category" onchange="renderProducts()" aria-label="商品分類">
+        <option value="">全部分類</option>
+        <option value="貓砂">貓砂</option>
+        <option value="主食">主食</option>
+        <option value="零食">零食</option>
+        <option value="用品">生活用品</option>
+      </select>
+    </div>
+    <div id="productList" class="products"></div>
+  </section>
+
+  <section id="details" class="section panel hidden">
+    <button class="secondary" onclick="go('shop')">← 返回商品</button>
+    <div id="detailContent"></div>
+  </section>
+
+  <section id="account" class="section hidden">
+    <h2>會員中心</h2>
+    <div id="authPanel" class="panel">
+      <h3>會員登入／註冊</h3>
+      <form id="authForm">
+        <div class="field">
+          <label for="authEmail">電子郵件</label>
+          <input id="authEmail" type="email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="authPassword">密碼（至少 6 個字元）</label>
+          <input id="authPassword" type="password" minlength="6"
+                 autocomplete="current-password" required>
+        </div>
+        <div class="actions">
+          <button type="submit">登入</button>
+          <button type="button" class="secondary" onclick="register()">註冊新會員</button>
+          <button type="button" class="secondary" onclick="resetPassword()">忘記密碼</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="profilePanel" class="panel hidden">
+      <p id="currentEmail" class="muted"></p>
+      <h3>個人資料</h3>
+      <form id="profileForm">
+        <div class="form-grid">
+          <div class="field">
+            <label for="profileName">姓名</label>
+            <input id="profileName" maxlength="80" required>
+          </div>
+          <div class="field">
+            <label for="profilePhone">電話</label>
+            <input id="profilePhone" maxlength="30">
+          </div>
+        </div>
+        <div class="field">
+          <label for="profileAddress">收件地址</label>
+          <textarea id="profileAddress" maxlength="300" rows="3"></textarea>
+        </div>
+        <button type="submit">儲存會員資料</button>
+      </form>
+      <div class="section">
+        <h3>我的訂單</h3>
+        <div id="myOrders">請登入後查看訂單。</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cart" class="section hidden">
+    <h2>購物車</h2>
+    <div class="panel">
+      <div id="cartItems"></div>
+      <h3>商品小計：NT$ <span id="cartTotal">0</span></h3>
+      <p class="muted">運費及其他費用尚未計入。</p>
+      <button onclick="checkout()">建立待付款訂單</button>
+    </div>
+
+    <div id="checkoutPanel" class="panel section hidden">
+      <h3>收件資料</h3>
+      <form id="checkoutForm">
+        <div class="field">
+          <label for="recipient">收件人</label>
+          <input id="recipient" required maxlength="80">
+        </div>
+        <div class="field">
+          <label for="recipientPhone">聯絡電話</label>
+          <input id="recipientPhone" required maxlength="30">
+        </div>
+        <div class="field">
+          <label for="recipientAddress">配送地址</label>
+          <textarea id="recipientAddress" required maxlength="300"></textarea>
+        </div>
+        <button type="submit">確認並建立訂單</button>
+      </form>
+      <p class="muted">
+        此功能只建立待付款訂單，不會收取款項。
+      </p>
+    </div>
+  </section>
+
+  <section id="admin" class="section hidden">
+    <h2>管理員商品管理</h2>
+    <div class="notice">
+      僅限你在程式中設定的管理員 UID 操作。請勿將管理員權限開放給一般會員。
+    </div>
+    <div class="panel">
+      <h3 id="productFormTitle">新增商品</h3>
+      <form id="productForm">
+        <input type="hidden" id="editId">
+        <div class="form-grid">
+          <div class="field">
+            <label for="pName">商品名稱</label>
+            <input id="pName" maxlength="120" required>
+          </div>
+          <div class="field">
+            <label for="pCategory">商品分類</label>
+            <select id="pCategory" required>
+              <option value="貓砂">貓砂</option>
+              <option value="主食">主食</option>
+              <option value="零食">零食</option>
+              <option value="用品">生活用品</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="pPrice">價格（新臺幣）</label>
+            <input id="pPrice" type="number" min="0" max="1000000" step="1" required>
+          </div>
+          <div class="field">
+            <label for="pStock">庫存</label>
+            <input id="pStock" type="number" min="0" max="1000000" step="1" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="pImage">商品圖片網址（HTTPS）</label>
+          <input id="pImage" type="url" maxlength="1500" placeholder="https://..." >
+        </div>
+        <div class="field">
+          <label for="pDescription">商品描述</label>
+          <textarea id="pDescription" maxlength="3000" rows="4"></textarea>
+        </div>
+        <div class="actions">
+          <button type="submit">儲存商品</button>
+          <button type="button" class="secondary" onclick="resetProductForm()">清除表單</button>
+        </div>
+      </form>
+    </div>
+    <div class="section">
+      <h3>現有商品</h3>
+      <div id="adminProducts"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>喵日子 Nya Days</p>
+  <p class="muted">給貓咪最安心的選擇</p>
+</footer>
+
+<script type="module">
+  import { initializeApp } from
+    "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+  import {
+    getAuth, onAuthStateChanged, createUserWithEmailAndPassword,
+    signInWithEmailAndPassword, signOut, sendPasswordResetEmail
+  } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+  import {
+    getFirestore, collection, doc, getDoc, getDocs, setDoc,
+    addDoc, updateDoc, deleteDoc, query, where, orderBy, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+  // 你的 Firebase 專案設定
+  const firebaseConfig = {
+    apiKey: "AIzaSyBZwt3_ll_DMY03igN2rj8jX7gcPTmSYJM",
+    authDomain: "mewo-days.firebaseapp.com",
+    projectId: "mewo-days",
+    storageBucket: "mewo-days.firebasestorage.app",
+    messagingSenderId: "819367267297",
+    appId: "1:819367267297:web:c9b0aabca8cb40808f20a0"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // 必須換成你自己的 Firebase Authentication UID
+  const ADMIN_UIDS = [
+    "IynXD5f8nvNhWCIZRrjdkqdwCJL2"
+  ];
+
+  let user = null;
+  let products = [];
+  let cart = [];
+  let currentProduct = null;
+
+  const $ = id => document.getElementById(id);
+  const isAdmin = () => !!user && ADMIN_UIDS.includes(user.uid);
+  const money = n => Number(n || 0).toLocaleString("zh-TW");
+  const safeText = value => String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;",
+    '"': "&quot;", "'": "&#39;"
+  })[c]);
+
+  function message(text, error = false) {
+    $("message").textContent = text;
+    $("message").style.color = error ? "#a32d2d" : "#526b50";
+  }
+
+  window.go = function(id) {
+    ["shop", "details", "account", "cart", "admin"].forEach(section => {
+      $(section).classList.toggle("hidden", section !== id);
+    });
+    if (id === "cart") renderCart();
+    if (id === "account" && user) loadProfile();
+    if (id === "account" && user) loadOrders();
+    if (id === "admin" && isAdmin()) renderAdminProducts();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  async function loadProducts() {
+    try {
+      const snap = await getDocs(collection(db, "products"));
+      products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderProducts();
+      if (isAdmin()) renderAdminProducts();
+    } catch (e) {
+      message("無法讀取商品：" + e.message, true);
+    }
+  }
+
+  function productImage(url, name) {
+    const valid = typeof url === "string" && /^https:\/\//i.test(url);
+    return valid
+      ? `<img class="product-image" src="${safeText(url)}"
+             alt="${safeText(name)}" loading="lazy"
+             onerror="this.style.display='none'">`
+      : `<div class="product-image" role="img" aria-label="暫無商品圖片"
+             style="display:grid;place-items:center">🐱</div>`;
+  }
+
+  window.renderProducts = function() {
+    const term = $("search").value.trim().toLowerCase();
+    const category = $("category").value;
+    const list = products.filter(p =>
+      (!category || p.category === category) &&
+      (`${p.name || ""} ${p.description || ""}`.toLowerCase().includes(term))
+    );
+    $("productList").innerHTML = list.length ? list.map(p => `
+      <article class="card">
+        ${productImage(p.image, p.name)}
+        <h3>${safeText(p.name)}</h3>
+        <p class="muted">${safeText(p.category || "其他分類")}</p>
+        <p class="price">NT$ ${money(p.price)}</p>
+        <p class="muted">庫存：${money(p.stock)}</p>
+        <div class="actions">
+          <button onclick="showDetails('${p.id}')">商品詳情</button>
+          <button class="secondary" onclick="addToCart('${p.id}')"
+            ${Number(p.stock) < 1 ? "disabled" : ""}>加入購物車</button>
+        </div>
+      </article>
+    `).join("") : "<p>目前沒有符合條件的商品。</p>";
+  };
+
+  window.showDetails = function(id) {
+    const p = products.find(item => item.id === id);
+    if (!p) return message("找不到這項商品。", true);
+    currentProduct = p;
+    $("detailContent").innerHTML = `
+      <h2>${safeText(p.name)}</h2>
+      ${productImage(p.image, p.name)}
+      <p class="price">NT$ ${money(p.price)}</p>
+      <p>分類：${safeText(p.category || "其他分類")}</p>
+      <p>庫存：${money(p.stock)}</p>
+      <p>${safeText(p.description || "暫無商品描述。")}</p>
+      <button onclick="addToCart('${p.id}')"
+        ${Number(p.stock) < 1 ? "disabled" : ""}>加入購物車</button>
+    `;
+    go("details");
+  };
+
+  async function loadCart() {
+    cart = [];
+    if (!user) {
+      updateCartCount();
+      return;
+    }
+    try {
+      const snap = await getDocs(collection(db, "carts", user.uid, "items"));
+      cart = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      updateCartCount();
+    } catch (e) {
+      message("讀取購物車失敗：" + e.message, true);
+    }
+  }
+
+  function updateCartCount() {
+    $("cartCount").textContent = cart.reduce((sum, item) =>
+      sum + Number(item.quantity || 0), 0);
+  }
+
+  window.addToCart = async function(id) {
+    if (!user) {
+      message("請先登入會員再加入購物車。");
+      go("account");
+      return;
+    }
+    const p = products.find(item => item.id === id);
+    if (!p || !Number.isInteger(Number(p.stock)) || Number(p.stock) < 1) {
+      return message("商品目前無庫存。", true);
+    }
+
+    try {
+      const ref = doc(db, "carts", user.uid, "items", id);
+      const snap = await getDoc(ref);
+      const oldQty = snap.exists() ? Number(snap.data().quantity || 0) : 0;
+      if (oldQty + 1 > Number(p.stock)) {
+        return message("購買數量超過目前顯示的庫存。", true);
+      }
+      await setDoc(ref, {
+        productId: id,
+        quantity: oldQty + 1,
+        updatedAt: serverTimestamp()
+      });
+      await loadCart();
+      message("已加入購物車。");
+    } catch (e) {
+      message("加入購物車失敗：" + e.message, true);
+    }
+  };
+
+  window.changeQty = async function(id, delta) {
+    const item = cart.find(i => i.id === id);
+    if (!item || !user) return;
+    const p = products.find(x => x.id === id);
+    const next = Number(item.quantity) + delta;
+
+    try {
+      const ref = doc(db, "carts", user.uid, "items", id);
+      if (next <= 0) {
+        await deleteDoc(ref);
+      } else if (!p || next > Number(p.stock)) {
+        return message("數量不可超過目前庫存。", true);
+      } else {
+        await updateDoc(ref, {
+          quantity: next,
+          updatedAt: serverTimestamp()
+        });
+      }
+      await loadCart();
+      renderCart();
+    } catch (e) {
+      message("更新購物車失敗：" + e.message, true);
+    }
+  };
+
+  window.removeCartItem = async function(id) {
+    if (!user) return;
+    try {
+      await deleteDoc(doc(db, "carts", user.uid, "items", id));
+      await loadCart();
+      renderCart();
+    } catch (e) {
+      message("移除商品失敗：" + e.message, true);
+    }
+  };
+
+  function renderCart() {
+    if (!user) {
+      $("cartItems").innerHTML = "請先登入會員。";
+      $("cartTotal").textContent = "0";
+      $("checkoutPanel").classList.add("hidden");
+      return;
+    }
+    const lines = cart.map(item => {
+      const p = products.find(x => x.id === item.id);
+      if (!p) return "";
+      const qty = Number(item.quantity || 0);
+      return `
+        <div class="cart-row">
+          <div><strong>${safeText(p.name)}</strong>
+            <div>NT$ ${money(p.price)} × ${qty}</div>
+          </div>
+          <div class="actions">
+            <button class="secondary" onclick="changeQty('${item.id}',-1)">−</button>
+            <button class="secondary" onclick="changeQty('${item.id}',1)">＋</button>
+            <button class="danger" onclick="removeCartItem('${item.id}')">移除</button>
+          </div>
+        </div>`;
+    }).join("");
+    $("cartItems").innerHTML = lines || "<p>購物車目前是空的。</p>";
+    $("cartTotal").textContent = money(cart.reduce((sum, item) => {
+      const p = products.find(x => x.id === item.id);
+      return sum + (p ? Number(p.price) * Number(item.quantity) : 0);
+    }, 0));
+    $("checkoutPanel").classList.toggle("hidden", cart.length === 0);
+  }
+
+  window.checkout = async function() {
+    if (!user) {
+      message("請先登入再結帳。");
+      go("account");
+      return;
+    }
+    await loadProfile();
+    $("checkoutPanel").classList.remove("hidden");
+    $("checkoutPanel").scrollIntoView({ behavior: "smooth" });
+  };
+
+  $("checkoutForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    if (!user || !cart.length) return;
+
+    try {
+      // 重新讀取商品，避免直接相信購物車中的價格
+      const lines = [];
+      let total = 0;
+
+      for (const item of cart) {
+        const snap = await getDoc(doc(db, "products", item.id));
+        if (!snap.exists()) throw new Error("有商品已下架，請重新確認購物車。");
+        const p = snap.data();
+        const qty = Number(item.quantity);
+        const price = Number(p.price);
+        if (!Number.isInteger(qty) || qty < 1 ||
+            !Number.isFinite(price) || price < 0 ||
+            qty > Number(p.stock)) {
+          throw new Error("商品庫存或資料有變動，請重新確認購物車。");
+        }
+        total += price * qty;
+        lines.push({
+          productId: item.id,
+          name: String(p.name || ""),
+          price,
+          quantity: qty
+        });
+      }
+
+      // 僅建立待付款訂單；這不是安全的正式金流結帳實作
+      await addDoc(collection(db, "orders"), {
+        uid: user.uid,
+        items: lines,
+        total,
+        recipient: $("recipient").value.trim(),
+        phone: $("recipientPhone").value.trim(),
+        address: $("recipientAddress").value.trim(),
+        status: "pending",
+        createdAt: serverTimestamp()
+      });
+
+      message("訂單已建立，狀態為待付款。尚未收取款項。");
+      for (const item of cart) {
+        await deleteDoc(doc(db, "carts", user.uid, "items", item.id));
+      }
+      await loadCart();
+      renderCart();
+      await loadOrders();
+      go("account");
+    } catch (e) {
+      message("建立訂單失敗：" + e.message, true);
+    }
+  });
+
+  window.register = async function() {
+    const email = $("authEmail").value.trim();
+    const password = $("authPassword").value;
+    if (!email || password.length < 6) {
+      return message("請輸入有效電子郵件與至少 6 個字元的密碼。", true);
+    }
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      message("註冊成功，歡迎加入喵日子！");
+    } catch (e) { message("註冊失敗：" + e.message, true); }
+  };
+
+  $("authForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    try {
+      await signInWithEmailAndPassword(
+        auth, $("authEmail").value.trim(), $("authPassword").value
+      );
+      message("登入成功。");
+    } catch (e) { message("登入失敗：" + e.message, true); }
+  });
+
+  window.resetPassword = async function() {
+    const email = $("authEmail").value.trim();
+    if (!email) return message("請先填寫電子郵件。", true);
+    try {
+      await sendPasswordResetEmail(auth, email);
+      message("如果該電子郵件符合條件，Firebase 將寄送重設密碼郵件。");
+    } catch (e) { message("無法寄送重設郵件：" + e.message, true); }
+  };
+
+  window.logout = async function() {
+    try {
+      await signOut(auth);
+      message("已登出。");
+      go("shop");
+    } catch (e) { message("登出失敗：" + e.message, true); }
+  };
+
+  async function loadProfile() {
+    if (!user) return;
+    $("currentEmail").textContent = user.email || "";
+    try {
+      const snap = await getDoc(doc(db, "users", user.uid));
+      const data = snap.exists() ? snap.data() : {};
+      $("profileName").value = data.name || "";
+      $("profilePhone").value = data.phone || "";
+      $("profileAddress").value = data.address || "";
+      $("recipient").value = data.name || "";
+      $("recipientPhone").value = data.phone || "";
+      $("recipientAddress").value = data.address || "";
+    } catch (e) { message("讀取會員資料失敗：" + e.message, true); }
+  }
+
+  $("profileForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    if (!user) return;
+    try {
+      await setDoc(doc(db, "users", user.uid), {
+        name: $("profileName").value.trim(),
+        phone: $("profilePhone").value.trim(),
+        address: $("profileAddress").value.trim(),
+        email: user.email || ""
+      }, { merge: true });
+      message("會員資料已儲存。");
+    } catch (e) { message("儲存資料失敗：" + e.message, true); }
+  });
+
+  async function loadOrders() {
+    if (!user) return;
+    try {
+      const q = query(
+        collection(db, "orders"),
+        where("uid", "==", user.uid)
+      );
+      const snap = await getDocs(q);
+      const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      list.sort((a, b) =>
+        (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)
+      );
+      $("myOrders").innerHTML = list.length ? list.map(o => `
+        <div class="cart-row">
+          <div>
+            <strong>訂單編號：</strong>${safeText(o.id)}
+            <div class="muted">狀態：${safeText(o.status || "未知")}</div>
+            <div>NT$ ${money(o.total)}</div>
+          </div>
+          <button class="secondary" onclick="showOrder('${o.id}')">查看明細</button>
+        </div>
+      `).join("") : "<p>目前沒有訂單。</p>";
+    } catch (e) { message("讀取訂單失敗：" + e.message, true); }
+  }
+
+  window.showOrder = async function(id) {
+    try {
+      const snap = await getDoc(doc(db, "orders", id));
+      if (!snap.exists()) return message("找不到訂單。", true);
+      const o = snap.data();
+      if (!user || (!isAdmin() && o.uid !== user.uid)) {
+        return message("沒有權限查看此訂單。", true);
+      }
+      const lines = (o.items || []).map(i =>
+        `${i.name} × ${i.quantity}：NT$ ${money(i.price * i.quantity)}`
+      ).join("\n");
+      message(`訂單：${id}\n${lines}\n合計：NT$ ${money(o.total)}\n狀態：${o.status}`);
+    } catch (e) { message("讀取訂單失敗：" + e.message, true); }
+  };
+
+  window.resetProductForm = function() {
+    $("productForm").reset();
+    $("editId").value = "";
+    $("productFormTitle").textContent = "新增商品";
+  };
+
+  $("productForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    if (!isAdmin()) return message("只有管理員可以管理商品。", true);
+
+    const name = $("pName").value.trim();
+    const price = Number($("pPrice").value);
+    const stock = Number($("pStock").value);
+    const image = $("pImage").value.trim();
+
+    if (!name || !Number.isSafeInteger(price) || price < 0 ||
+        !Number.isSafeInteger(stock) || stock < 0) {
+      return message("請確認商品名稱、價格與庫存。", true);
+    }
+    if (image && !/^https:\/\//i.test(image)) {
+      return message("商品圖片網址必須使用 HTTPS。", true);
+    }
+
+    const data = {
+      name,
+      category: $("pCategory").value,
+      price,
+      stock,
+      image,
+      description: $("pDescription").value.trim(),
+      updatedAt: serverTimestamp()
+    };
+
+    try {
+      const id = $("editId").value;
+      if (id) {
+        await updateDoc(doc(db, "products", id), data);
+      } else {
+        data.createdAt = serverTimestamp();
+        await addDoc(collection(db, "products"), data);
+      }
+      resetProductForm();
+      await loadProducts();
+      message("商品已儲存。");
+    } catch (e) { message("儲存商品失敗：" + e.message, true); }
+  });
+
+  window.editProduct = function(id) {
+    if (!isAdmin()) return;
+    const p = products.find(x => x.id === id);
+    if (!p) return;
+    $("editId").value = id;
+    $("pName").value = p.name || "";
+    $("pCategory").value = p.category || "用品";
+    $("pPrice").value = p.price ?? 0;
+    $("pStock").value = p.stock ?? 0;
+    $("pImage").value = p.image || "";
+    $("pDescription").value = p.description || "";
+    $("productFormTitle").textContent = "編輯商品";
+    $("productForm").scrollIntoView({ behavior: "smooth" });
+  };
+
+  window.deleteProduct = async function(id) {
+    if (!isAdmin()) return;
+    if (!confirm("確定要刪除這項商品嗎？")) return;
+    try {
+      await deleteDoc(doc(db, "products", id));
+      await loadProducts();
+      message("商品已刪除。");
+    } catch (e) { message("刪除商品失敗：" + e.message, true); }
+  };
+
+  async function renderAdminProducts() {
+    if (!isAdmin()) return;
+    $("adminProducts").innerHTML = products.map(p => `
+      <div class="cart-row">
+        <div>
+          <strong>${safeText(p.name)}</strong>
+          <div>NT$ ${money(p.price)}｜庫存 ${money(p.stock)}</div>
+        </div>
+        <div class="actions">
+          <button onclick="editProduct('${p.id}')">編輯</button>
+          <button class="danger" onclick="deleteProduct('${p.id}')">刪除</button>
+        </div>
+      </div>
+    `).join("") || "<p>尚無商品。</p>";
+  }
+
+  onAuthStateChanged(auth, async currentUser => {
+    user = currentUser;
+    $("authPanel").classList.toggle("hidden", !!user);
+    $("profilePanel").classList.toggle("hidden", !user);
+    $("authButton").classList.toggle("hidden", !!user);
+    $("logoutButton").classList.toggle("hidden", !user);
+    $("adminNav").classList.toggle("hidden", !isAdmin());
+
+    if (user) {
+      await loadProfile();
+      await loadCart();
+      await loadOrders();
+    } else {
+      cart = [];
+      updateCartCount();
+      $("myOrders").textContent = "請登入後查看訂單。";
+    }
+    await loadProducts();
+  });
+
+  loadProducts();
+</script>
+</body>
+</html>
